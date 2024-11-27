@@ -3,13 +3,16 @@ package com.example.travelmate.ui.register
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.travelmate.api.ApiClient
+import com.example.travelmate.api.ErrorResponse
 import com.example.travelmate.api.SignUpRequest
 import com.example.travelmate.api.SignUpResponse
 import com.example.travelmate.databinding.ActivityRegisterBinding
 import com.example.travelmate.ui.login.LoginActivity
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,7 +75,13 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.makeText(this@RegisterActivity, "Registration failed: ${body?.message}", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this@RegisterActivity, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e("API_RESPONSE", "Error Body: $errorBody")
+
+                    val gson = Gson()
+                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+
+                    Toast.makeText(this@RegisterActivity, "Error: ${errorResponse.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 

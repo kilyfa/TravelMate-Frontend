@@ -1,5 +1,5 @@
 package com.example.travelmate.ui.login
-
+import android.util.Log
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -8,11 +8,13 @@ import com.example.travelmate.MainActivity
 import com.example.travelmate.api.ApiClient
 import com.example.travelmate.api.SignInRequest
 import com.example.travelmate.api.SignInResponse
+import com.example.travelmate.api.ErrorResponse
 import com.example.travelmate.databinding.ActivityLoginBinding
 import com.example.travelmate.ui.register.RegisterActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.google.gson.Gson
 
 class LoginActivity : AppCompatActivity() {
 
@@ -31,28 +33,31 @@ class LoginActivity : AppCompatActivity() {
 
         // Tombol untuk Login
         binding.button.setOnClickListener {
-            val name = binding.emailEt.text.toString() // Diubah ke "name" sesuai API
+            val email = binding.emailEt.text.toString()
             val password = binding.passET.text.toString()
 
-            if (name.isNotEmpty() && password.isNotEmpty()) {
-                login(name, password)
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                login(email, password)
             } else {
                 Toast.makeText(this, "Empty Fields Are Not Allowed!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun login(name: String, password: String) {
-        val request = SignInRequest(name, password)
+    private fun login(email: String, password: String) {
+        val request = SignInRequest(email, password)
 
         ApiClient.userApiService.signIn(request).enqueue(object : Callback<SignInResponse> {
             override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
+                Log.d("API_RESPONSE", "Response Code: ${response.code()}")
                 if (response.isSuccessful) {
                     val body = response.body()
+                    Log.d("API_RESPONSE", "Body: $body")
+
                     if (body != null && body.status == "success") {
                         Toast.makeText(this@LoginActivity, body.message, Toast.LENGTH_SHORT).show()
 
-                        // Simpan token jika diperlukan (gunakan SharedPreferences)
+                        // Simpan token jika diperlukan
                         saveToken(body.token)
 
                         // Berpindah ke MainActivity
@@ -63,11 +68,18 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(this@LoginActivity, "Login failed: ${body?.message}", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this@LoginActivity, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                    Log.e("API_RESPONSE", "Error Body: $errorBody")
+
+                    val gson = Gson()
+                    val errorResponse = gson.fromJson(errorBody, ErrorResponse::class.java)
+
+                    Toast.makeText(this@LoginActivity, "Error: ${errorResponse.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<SignInResponse>, t: Throwable) {
+                Log.e("API_RESPONSE", "Failure: ${t.message}")
                 Toast.makeText(this@LoginActivity, "Failed: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
