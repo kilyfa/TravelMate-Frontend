@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchFragment">
+
+    <EditText
+        android:id="@+id/cityInput"
+        android:layout_width="324dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="88dp"
+        android:hint="Kota"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/priceInput"
+        android:layout_width="324dp"
+        android:layout_height="53dp"
+        android:hint="Harga"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/cityInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/ratingInput"
+        android:layout_width="324dp"
+        android:layout_height="56dp"
+        android:hint="Rating"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/priceInput" />
+
+    <EditText
+        android:inputType="text"
+        android:id="@+id/categoryInput"
+        android:layout_width="324dp"
+        android:layout_height="56dp"
+        android:hint="Kategori"
+        app:layout_constraintTop_toBottomOf="@id/ratingInput"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="204dp"
+        android:layout_height="59dp"
+        android:text="Cari Destinasi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/categoryInput" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
