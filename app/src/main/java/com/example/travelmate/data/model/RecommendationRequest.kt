@@ -1,8 +1,8 @@
 package com.example.travelmate.data.model
 
-data class SearchRequest(
+data class RecommendationRequest(
+    val city: String,
     val price: Int,
     val rating: Float,
-    val city: String,
     val category: String
 )

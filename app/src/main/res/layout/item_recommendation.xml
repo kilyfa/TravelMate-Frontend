@@ -34,7 +34,7 @@
             app:layout_constraintTop_toBottomOf="@id/textName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_margin="8dp" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/textRating"
@@ -45,7 +45,7 @@
             app:layout_constraintTop_toBottomOf="@id/textLocation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_margin="8dp" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/textPrice"
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@id/textRating"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_margin="8dp" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:id="@+id/textDescription"
@@ -67,7 +67,7 @@
             app:layout_constraintTop_toBottomOf="@id/textPrice"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_margin="8dp" />
+            android:layout_marginTop="8dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

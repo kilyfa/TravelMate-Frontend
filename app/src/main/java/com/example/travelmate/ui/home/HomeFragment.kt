@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.travelmate.R
 import com.example.travelmate.databinding.FragmentHomeBinding
@@ -18,12 +16,12 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        // Menangani klik tombol pencarian
+        // Navigasi ke SearchFragment
         binding.searchButton.setOnClickListener {
-            findNavController().navigate(R.id.searchButton)
+            findNavController().navigate(R.id.action_home_to_search)
         }
 
         return binding.root

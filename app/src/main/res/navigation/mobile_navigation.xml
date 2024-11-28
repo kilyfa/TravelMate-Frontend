@@ -9,17 +9,25 @@
         android:id="@+id/navigation_home"
         android:name="com.example.travelmate.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_search"
+            app:destination="@id/searchFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.travelmate.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/searchFragment"
+        android:name="com.example.travelmate.ui.search.SearchFragment"
+        android:label="Search"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_search_to_result"
+            app:destination="@id/resultFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.travelmate.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/resultFragment"
+        android:name="com.example.travelmate.ui.result.ResultFragment"
+        android:label="Result"
+        tools:layout="@layout/fragment_result" />
 </navigation>

@@ -2,11 +2,16 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id ("kotlin-parcelize")
 }
 
 android {
     namespace = "com.example.travelmate"
     compileSdk = 35
+
+    packaging {
+        resources.excludes.add("META-INF/versions/9/OSGI-INF/MANIFEST.MF")
+    }
 
     defaultConfig {
         applicationId = "com.example.travelmate"
@@ -37,6 +42,7 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
 }
 
 dependencies {
@@ -59,6 +65,7 @@ dependencies {
     implementation (libs.converter.gson)
     implementation(libs.glide)
     implementation(libs.logging.interceptor)
+    implementation(libs.identity.jvm)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

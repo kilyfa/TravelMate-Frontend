@@ -1,61 +1,46 @@
 package com.example.travelmate.ui.search
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import androidx.lifecycle.Observer
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import com.example.travelmate.R
-import com.example.travelmate.data.model.SearchRequest
-import com.example.travelmate.ui.adapter.DestinationAdapter
+import com.example.travelmate.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
 
+    private lateinit var binding: FragmentSearchBinding
     private lateinit var searchViewModel: SearchViewModel
-    private lateinit var edtPrice: EditText
-    private lateinit var edtRating: EditText
-    private lateinit var edtCity: EditText
-    private lateinit var edtCategory: EditText
-    private lateinit var btnSearch: Button
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: DestinationAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        searchViewModel = ViewModelProvider(this)[SearchViewModel::class.java]
 
-        edtPrice = view.findViewById(R.id.editTextPrice)
-        edtRating = view.findViewById(R.id.editTextRating)
-        edtCity = view.findViewById(R.id.editTextCity)
-        edtCategory = view.findViewById(R.id.editTextCategory)
-        btnSearch = view.findViewById(R.id.buttonSubmit)
-        recyclerView = view.findViewById(R.id.rv_result)
+        binding.submitButton.setOnClickListener {
+            val city = binding.cityInput.text.toString().trim()
+            val price = binding.priceInput.text.toString().toIntOrNull()
+            val rating = binding.ratingInput.text.toString().toFloatOrNull()
+            val category = binding.categoryInput.text.toString().trim()
 
-        // Adapter RecyclerView
-        adapter = DestinationAdapter()
-        recyclerView.adapter = adapter
+            if (city.isEmpty() || price == null || rating == null || category.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill in all fields correctly.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-        // Inisialisasi ViewModel
-        searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
+            // Save data to ViewModel
+            searchViewModel.setSearchData(city, price, rating, category)
 
-        // Observasi destinasi
-        searchViewModel.destinations.observe(viewLifecycleOwner, Observer { destinations ->
-            adapter.submitList(destinations)
-        })
-
-        // Klik tombol untuk mencari
-        btnSearch.setOnClickListener {
-            val price = edtPrice.text.toString().toInt()
-            val rating = edtRating.text.toString().toFloat()
-            val city = edtCity.text.toString()
-            val category = edtCategory.text.toString()
-
-            val request = SearchRequest(price, rating, city, category)
-            searchViewModel.fetchDestinations(request)
+            // Navigate to ResultFragment
+            findNavController().navigate(R.id.action_search_to_result)
         }
+
+        return binding.root
     }
 }
