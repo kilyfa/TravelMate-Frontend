@@ -2,6 +2,7 @@ package com.example.travelmate.api
 
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 data class SignInRequest(val email: String, val password: String)
@@ -17,3 +18,9 @@ interface UserApiService {
     @POST("/signup")
     fun signUp(@Body request: SignUpRequest): Call<SignUpResponse>
 }
+
+interface HomeApiService {
+    @GET("/home")
+    fun getPlaces(): Call<PlaceResponse>
+}
+
