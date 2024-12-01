@@ -26,7 +26,7 @@ data class DataItem(
 	val name: String,
 
 	@field:SerializedName("rating")
-	val rating: Int,
+	val rating: Double,
 
 	@field:SerializedName("id")
 	val id: Int,

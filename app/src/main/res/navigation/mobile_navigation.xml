@@ -22,12 +22,38 @@
         tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_search_to_result"
-            app:destination="@id/resultFragment" />
+            app:destination="@id/resultFragment">
+            <argument
+                android:name="city"
+                app:argType="string" />
+            <argument
+                android:name="price"
+                app:argType="integer" />
+            <argument
+                android:name="rating"
+                app:argType="float" />
+            <argument
+                android:name="category"
+                app:argType="string" />
+        </action>
     </fragment>
 
     <fragment
         android:id="@+id/resultFragment"
         android:name="com.example.travelmate.ui.result.ResultFragment"
-        android:label="Result"
-        tools:layout="@layout/fragment_result" />
+        android:label="Result Fragment"
+        tools:layout="@layout/fragment_result">
+        <argument
+            android:name="city"
+            app:argType="string" />
+        <argument
+            android:name="price"
+            app:argType="integer" />
+        <argument
+            android:name="rating"
+            app:argType="float" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+    </fragment>
 </navigation>

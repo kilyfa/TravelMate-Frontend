@@ -5,11 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.example.travelmate.R
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.travelmate.R
 import com.example.travelmate.api.ApiClient
 import com.example.travelmate.api.HomeApiService
 import com.example.travelmate.api.PlaceResponse
@@ -24,13 +24,19 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         // Inisialisasi RecyclerView
         setupRecyclerView()
+
+        binding.button1.setOnClickListener {
+            // Navigasi ke SearchFragment
+            findNavController().navigate(R.id.action_home_to_search)
+        }
 
         // Fetch data dari API
         fetchHomeData()
@@ -43,6 +49,7 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = PlaceAdapter(emptyList())
     }
+
 
     private fun fetchHomeData() {
         val apiService = ApiClient.retrofit.create(HomeApiService::class.java)
@@ -84,6 +91,8 @@ class HomeFragment : Fragment() {
         })
     }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
