@@ -2,56 +2,51 @@ package com.example.travelmate.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travelmate.data.response.DataItem
 import com.example.travelmate.databinding.ItemRecommendationBinding
 
 class ResultAdapter(
-    private val onItemClick: (DataItem) -> Unit
-) : ListAdapter<DataItem, ResultAdapter.RecommendationViewHolder>(DIFF_CALLBACK) {
+    private val onItemClicked: (DataItem) -> Unit
+) : RecyclerView.Adapter<ResultAdapter.ResultViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecommendationViewHolder {
-        val binding = ItemRecommendationBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecommendationViewHolder(binding, onItemClick)
-    }
+    private val itemList = mutableListOf<DataItem>()
 
-    override fun onBindViewHolder(holder: RecommendationViewHolder, position: Int) {
-        val dataItem = getItem(position)
-        holder.bind(dataItem)
-    }
+    inner class ResultViewHolder(private val binding: ItemRecommendationBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: DataItem) {
+            binding.textViewName.text = item.name
+            binding.textViewAddress.text = item.address
+            binding.textViewCategory.text = item.category
+            binding.textViewCity.text = item.city
+            binding.textViewPrice.text = "Rp. " + item.price
+            binding.textViewRating.text = item.rating.toString()
 
-    class RecommendationViewHolder(
-        private val binding: ItemRecommendationBinding,
-        private val onItemClick: (DataItem) -> Unit
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(dataItem: DataItem) {
-            binding.apply {
-                textName.text = dataItem.name
-                textLocation.text = dataItem.city
-                textRating.text = "Rating: ${dataItem.rating}"
-                textPrice.text = "Price: ${dataItem.price}"
-                textDescription.text = dataItem.category
-
-                // Handle item click
-                root.setOnClickListener {
-                    onItemClick(dataItem)
-                }
+            // Klik item
+            binding.root.setOnClickListener {
+                onItemClicked(item)
             }
         }
     }
 
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DataItem>() {
-            override fun areItemsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
-                return oldItem.id == newItem.id
-            }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
+        val binding = ItemRecommendationBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return ResultViewHolder(binding)
+    }
 
-            override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
-                return oldItem == newItem
-            }
-        }
+    override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
+        holder.bind(itemList[position])
+    }
+
+    override fun getItemCount(): Int = itemList.size
+
+    fun submitList(newList: List<DataItem>) {
+        itemList.clear()
+        itemList.addAll(newList)
+        notifyDataSetChanged()
     }
 }

@@ -1,38 +1,42 @@
 [versions]
-converterGson = "2.9.0"
-agp = "8.1.1"
+converterGson = "2.11.0"
+agp = "8.6.1"
 firebaseBom = "33.6.0"
 firebaseMlModeldownloader = "25.0.1"
 glide = "4.16.0"
 googleServices = "4.4.2"
+gson = "2.11.0"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
-loggingInterceptor = "4.11.0"
+loggingInterceptor = "4.12.0"
 material = "1.12.0"
 constraintlayout = "2.2.0"
 lifecycleLivedataKtx = "2.8.7"
 lifecycleViewmodelKtx = "2.8.7"
 navigationFragmentKtx = "2.8.4"
+navigationSafeArgsGradlePlugin = "2.7.3"
 navigationUiKtx = "2.8.4"
 annotation = "1.9.1"
 activity = "1.9.3"
 firebaseAuthKtx = "23.1.0"
 firebaseAuth = "23.1.0"
-retrofit = "2.9.0"
+retrofit = "2.11.0"
 identityJvm = "202411.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version = "2.8.4" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-ml-modeldownloader = { module = "com.google.firebase:firebase-ml-modeldownloader", version.ref = "firebaseMlModeldownloader" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

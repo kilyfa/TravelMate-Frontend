@@ -24,9 +24,11 @@ class ResultViewModel(private val repository: RecommendationRepository) : ViewMo
     fun fetchRecommendations(request: RecommendationRequest) {
         repository.getRecommendations(request,
             onSuccess = { response ->
+                Log.d("API_RESPONSE", "Data received: ${response.data}")
                 _recommendations.value = response.data
             },
             onError = { message ->
+                Log.e("API_ERROR", "Error: $message")
                 _error.value = message
             }
         )

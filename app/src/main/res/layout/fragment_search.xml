@@ -1,64 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
-    <EditText
-        android:id="@+id/cityInput"
-        android:layout_width="324dp"
-        android:layout_height="56dp"
+    <!-- Dropdown Kota dengan Autocomplete -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/cityInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="88dp"
-        android:hint="Kota"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/priceInput"
-        android:layout_width="324dp"
-        android:layout_height="53dp"
-        android:hint="Harga"
-        android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@id/cityInput"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp"/>
+        <EditText
+            android:id="@+id/cityInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Kota"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/ratingInput"
-        android:layout_width="324dp"
-        android:layout_height="56dp"
-        android:hint="Rating"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <!-- Input Harga -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/priceInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/priceInput" />
-
-    <EditText
-        android:inputType="text"
-        android:id="@+id/categoryInput"
-        android:layout_width="324dp"
-        android:layout_height="56dp"
-        android:hint="Kategori"
-        app:layout_constraintTop_toBottomOf="@id/ratingInput"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toBottomOf="@id/cityInputLayout">
 
+        <EditText
+            android:id="@+id/priceInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Harga"
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Input Rating -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ratingInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/priceInputLayout">
+
+        <EditText
+            android:id="@+id/ratingInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Rating"
+            android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Dropdown untuk Kategori -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/categoryInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratingInputLayout">
+
+        <AutoCompleteTextView
+            android:id="@+id/categoryInput"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:padding="12dp"
+            android:hint="Kategori" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Tombol Submit -->
     <Button
         android:id="@+id/submitButton"
-        android:layout_width="204dp"
-        android:layout_height="59dp"
-        android:text="Cari Destinasi"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/categoryInput" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="84dp"
+        android:layout_marginEnd="84dp"
+        android:text="Cari Destinasi"
+        app:layout_constraintTop_toBottomOf="@id/categoryInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
