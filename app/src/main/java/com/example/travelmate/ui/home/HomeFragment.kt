@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.travelmate.R
 import com.example.travelmate.api.ApiClient
 import com.example.travelmate.api.HomeApiService
 import com.example.travelmate.api.PlaceResponse
@@ -31,6 +33,11 @@ class HomeFragment : Fragment() {
         // Inisialisasi RecyclerView
         setupRecyclerView()
 
+        binding.button1.setOnClickListener {
+            // Navigasi ke SearchFragment
+            findNavController().navigate(R.id.action_home_to_search)
+        }
+
         // Fetch data dari API
         fetchHomeData()
 
@@ -42,6 +49,7 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = PlaceAdapter(emptyList())
     }
+
 
     private fun fetchHomeData() {
         val apiService = ApiClient.retrofit.create(HomeApiService::class.java)
