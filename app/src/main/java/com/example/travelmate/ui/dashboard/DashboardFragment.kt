@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.travelmate.R
 import com.example.travelmate.databinding.FragmentDashboardBinding
 
 class DashboardFragment : Fragment() {
@@ -22,18 +24,16 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        binding.root.setOnClickListener {
+            // Navigasi ke SearchFragment
+            findNavController().navigate(R.id.action_home_to_search)
         }
         return root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
