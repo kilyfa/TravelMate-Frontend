@@ -104,11 +104,11 @@ class NotificationsFragment : Fragment() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val responseBody = response.body()?.string()
+                val responseBodyString = response.body?.string() // Simpan hasil body ke variabel
                 requireActivity().runOnUiThread {
-                    if (response.isSuccessful && !responseBody.isNullOrEmpty()) {
+                    if (response.isSuccessful && !responseBodyString.isNullOrEmpty()) {
                         try {
-                            val jsonObject = JSONObject(responseBody)
+                            val jsonObject = JSONObject(responseBodyString)
                             val dataObject = jsonObject.getJSONObject("data")
                             val name = dataObject.getString("name")
 
