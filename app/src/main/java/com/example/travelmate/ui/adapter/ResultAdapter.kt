@@ -7,7 +7,7 @@ import com.example.travelmate.data.response.DataItem
 import com.example.travelmate.databinding.ItemRecommendationBinding
 
 class ResultAdapter(
-    private val onItemClicked: (DataItem) -> Unit
+    private val onItemClicked: (Int) -> Unit
 ) : RecyclerView.Adapter<ResultAdapter.ResultViewHolder>() {
 
     private val itemList = mutableListOf<DataItem>()
@@ -24,7 +24,7 @@ class ResultAdapter(
 
             // Klik item
             binding.root.setOnClickListener {
-                onItemClicked(item)
+                onItemClicked(item.id)
             }
         }
     }

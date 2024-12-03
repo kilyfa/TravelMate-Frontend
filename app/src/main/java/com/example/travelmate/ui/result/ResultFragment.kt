@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.travelmate.databinding.FragmentResultBinding
@@ -37,8 +38,10 @@ class ResultFragment : Fragment() {
         resultViewModel = ViewModelProvider(this, factory)[ResultViewModel::class.java]
 
         // Inisialisasi adapter
-        adapter = ResultAdapter { item ->
-            Toast.makeText(requireContext(), "Selected: ${item.name}", Toast.LENGTH_SHORT).show()
+        adapter = ResultAdapter { placeId ->
+            // Pastikan 'placeId' dikirimkan dengan benar melalui Safe Args
+            val action = ResultFragmentDirections.actionResultToDetail(placeId)
+            findNavController().navigate(action)
         }
 
         binding.rvResult.apply {
