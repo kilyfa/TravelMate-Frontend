@@ -81,6 +81,7 @@ class NotificationsFragment : Fragment() {
     private fun getInfo() {
         val sharedPreferences = requireActivity().getSharedPreferences("AppPrefs", AppCompatActivity.MODE_PRIVATE)
         val token = sharedPreferences.getString("auth_token", null)
+        Log.e("GetInfoError", "Token: $token")
 
         if (token.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Token tidak ditemukan, silakan login ulang", Toast.LENGTH_SHORT).show()
