@@ -14,6 +14,7 @@ import com.example.travelmate.api.ApiClient
 import com.example.travelmate.api.HomeApiService
 import com.example.travelmate.api.PlaceResponse
 import com.example.travelmate.databinding.FragmentHomeBinding
+import com.example.travelmate.ui.detail.DetailFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +48,9 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         // Mengatur layout manager dan adapter awal
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = PlaceAdapter(emptyList())
+        binding.recyclerView.adapter = PlaceAdapter(emptyList()) { placeId ->
+            onPlaceClicked(placeId)
+        }
     }
 
 
@@ -60,11 +63,13 @@ class HomeFragment : Fragment() {
                     val placesResponse = response.body()
                     if (placesResponse != null && placesResponse.data.isNotEmpty()) {
                         // Ambil 10 tempat secara acak
-                        val randomPlaces = placesResponse.data.shuffled().take(10)
+                        val recommendPlace = placesResponse.data.take(10)
 
                         // Update RecyclerView dengan data baru
-                        binding.recyclerView.adapter = PlaceAdapter(randomPlaces)
-                    } else {
+                        binding.recyclerView.adapter = PlaceAdapter(recommendPlace) { placeId ->
+                            onPlaceClicked(placeId)
+                        }
+                        } else {
                         Toast.makeText(
                             requireContext(),
                             "No places available",
@@ -90,6 +95,11 @@ class HomeFragment : Fragment() {
             }
         })
     }
+    private fun onPlaceClicked(placeId: Int) {
+        val action = HomeFragmentDirections.actionHomeToDetail(placeId)
+        findNavController().navigate(action)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

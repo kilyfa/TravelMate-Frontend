@@ -1,28 +1,37 @@
 package com.example.travelmate.ui.notifications
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.travelmate.R
 import com.example.travelmate.databinding.FragmentNotificationsBinding
 import com.example.travelmate.ui.login.LoginActivity
 import okhttp3.*
-import org.json.JSONObject
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import java.io.IOException
-import kotlin.random.Random
+import org.json.JSONObject
 
 class NotificationsFragment : Fragment() {
 
     private var _binding: FragmentNotificationsBinding? = null
     private val binding get() = _binding!!
     private val client = OkHttpClient()
+    private var profileUrl: String? = null
+
+    // Activity Result Launcher untuk memilih gambar
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let { uploadImage(it) }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +51,16 @@ class NotificationsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.textView5.text = "Loading..."
-        randomizeProfileImage() // Set gambar secara acak
         getInfo()
+
+        // Tambahkan listener untuk unggah gambar
+        binding.imageView3.setOnClickListener {
+            if (profileUrl.isNullOrEmpty()) {
+                chooseImage()
+            } else {
+                Toast.makeText(requireContext(), "Foto profil sudah ada.", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -52,7 +69,8 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun logoutUser() {
-        val sharedPreferences = requireActivity().getSharedPreferences("AppPrefs", AppCompatActivity.MODE_PRIVATE)
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("AppPrefs", AppCompatActivity.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             remove("auth_token")
             apply()
@@ -65,21 +83,78 @@ class NotificationsFragment : Fragment() {
         requireActivity().finish()
     }
 
-    private fun randomizeProfileImage() {
-        // Array gambar
-        val images = listOf(
-            R.drawable.profile_1,
-            R.drawable.profile_2,
-            R.drawable.profile_3
-        )
-        // Pilih gambar secara acak
-        val randomImage = images.random()
-        // Set ke ImageView
-        binding.imageView3.setImageResource(randomImage)
+    private fun chooseImage() {
+        pickImageLauncher.launch("image/*") // Memilih hanya gambar
+    }
+
+    private fun uploadImage(imageUri: Uri) {
+        val contentResolver = requireActivity().contentResolver
+        val inputStream = contentResolver.openInputStream(imageUri)
+        val imageBytes = inputStream?.readBytes()
+        inputStream?.close()
+
+        if (imageBytes == null || imageBytes.size > 1048576) {
+            // Ukuran file lebih dari 1 MB
+            Toast.makeText(requireContext(), "Gambar terlalu besar. Pilih gambar dengan ukuran maksimum 1 MB.", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val requestBody = MultipartBody.Builder()
+            .setType(MultipartBody.FORM)
+            .addFormDataPart(
+                "image",
+                "profile_image.jpg",
+                RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageBytes)
+            )
+            .build()
+
+        val sharedPreferences = requireActivity().getSharedPreferences("AppPrefs", AppCompatActivity.MODE_PRIVATE)
+        val token = sharedPreferences.getString("auth_token", null)
+
+        if (token.isNullOrEmpty()) {
+            Toast.makeText(requireContext(), "Token tidak ditemukan. Silakan login ulang.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val request = Request.Builder()
+            .url("https://travelmate-capstone.et.r.appspot.com/home/profile/image")
+            .addHeader("Authorization", "Bearer $token")
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("UploadError", "Gagal mengunggah: ${e.message}", e)
+                requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), "Gagal mengunggah gambar. Periksa koneksi Anda.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                requireActivity().runOnUiThread {
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "Gambar berhasil diunggah!", Toast.LENGTH_SHORT).show()
+                        getInfo() // Refresh informasi profil
+                    } else {
+                        val statusCode = response.code
+                        val errorMessage = response.body?.string()
+
+                        if (statusCode == 413) {
+                            Toast.makeText(requireContext(), "Gambar terlalu besar. Maksimum ukuran adalah 1 MB.", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(requireContext(), "Gagal mengunggah gambar. Error: $statusCode", Toast.LENGTH_SHORT).show()
+                        }
+
+                        Log.e("UploadError", "Error $statusCode: $errorMessage")
+                    }
+                }
+            }
+        })
     }
 
     private fun getInfo() {
-        val sharedPreferences = requireActivity().getSharedPreferences("AppPrefs", AppCompatActivity.MODE_PRIVATE)
+        val sharedPreferences =
+            requireActivity().getSharedPreferences("AppPrefs", AppCompatActivity.MODE_PRIVATE)
         val token = sharedPreferences.getString("auth_token", null)
 
         if (token.isNullOrEmpty()) {
@@ -104,15 +179,28 @@ class NotificationsFragment : Fragment() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val responseBodyString = response.body?.string() // Simpan hasil body ke variabel
+                val responseBodyString = response.body?.string()
                 requireActivity().runOnUiThread {
-                    if (response.isSuccessful && !responseBodyString.isNullOrEmpty()) {
+                    if (response.isSuccessful) {
                         try {
                             val jsonObject = JSONObject(responseBodyString)
                             val dataObject = jsonObject.getJSONObject("data")
                             val name = dataObject.getString("name")
+                            profileUrl = dataObject.optString("profileUrl", "")
 
                             binding.textView5.text = "Welcome, $name"
+
+                            if (profileUrl.isNullOrEmpty()) {
+                                binding.imageViewEdit.visibility = View.VISIBLE
+                                binding.imageView3.setImageResource(R.drawable.profile_1)
+                            } else {
+                                binding.imageViewEdit.visibility = View.GONE
+                                Glide.with(requireContext())
+                                    .load(profileUrl)
+                                    .placeholder(R.drawable.profile_1)
+                                    .error(R.drawable.profile_2)
+                                    .into(binding.imageView3)
+                            }
                         } catch (e: Exception) {
                             Log.e("GetInfoError", "Error parsing JSON: ${e.message}", e)
                             binding.textView5.text = "Terjadi kesalahan saat memuat data."

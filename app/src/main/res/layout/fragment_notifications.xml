@@ -50,13 +50,33 @@
             android:layout_gravity="center"
             android:translationY="-100dp">
 
-            <ImageView
-                android:id="@+id/imageView3"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile_1" />
+                android:layout_height="match_parent">
+
+                <!-- Background ImageView -->
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/profile_1" />
+
+                <!-- Edit Icon -->
+                <ImageView
+                    android:id="@+id/imageViewEdit"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end|bottom"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/ic_edit"
+                    android:elevation="10dp"
+                    android:visibility="visible" />
+            </FrameLayout>
+
         </androidx.cardview.widget.CardView>
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -6,15 +6,36 @@
     app:startDestination="@id/navigation_home">
 
 
-        <fragment
-            android:id="@+id/navigation_home"
-            android:name="com.example.travelmate.ui.home.HomeFragment"
-            android:label="@string/title_home"
-            tools:layout="@layout/fragment_home">
-            <action
-                android:id="@+id/action_home_to_search"
-                app:destination="@id/searchFragment" />
-        </fragment>
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.travelmate.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_home_to_search"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="placeId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.travelmate.ui.detail.DetailFragment"
+        android:label="detail"
+        tools:layout="@layout/fragment_detail">
+        <action
+            android:id="@+id/action_detail_to_home"
+            app:destination="@id/navigation_home" />
+        <argument
+            android:name="placeId"
+            app:argType="integer" />
+    </fragment>
+
         <fragment
             android:id="@+id/searchFragment"
             android:name="com.example.travelmate.ui.search.SearchFragment"
@@ -54,6 +75,13 @@
             <argument
                 android:name="category"
                 app:argType="string" />
+            <action
+                android:id="@+id/action_result_to_detail"
+                app:destination="@id/detailFragment">
+            <argument
+                android:name="placeId"
+                app:argType="integer" />
+            </action>
         </fragment>
     <fragment
         android:id="@+id/navigation_dashboard"
