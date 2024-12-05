@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travelmate.R
+import com.example.travelmate.api.Place
 
 class PlaceAdapter(
-    private val places: List<com.example.travelmate.api.Place>,
+    private val places: List<Place>,
     private val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<PlaceAdapter.PlaceViewHolder>() {
 

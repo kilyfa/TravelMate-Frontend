@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.travelmate.R
 import com.example.travelmate.databinding.FragmentNotificationsBinding
@@ -43,6 +44,11 @@ class NotificationsFragment : Fragment() {
 
         binding.buttonLogout.setOnClickListener {
             logoutUser()
+        }
+
+        binding.button3.setOnClickListener(){
+            val action = NotificationsFragmentDirections.actionProfileToHistory()
+            findNavController().navigate(action)
         }
 
         return root

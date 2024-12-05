@@ -58,6 +58,7 @@
                     app:argType="string" />
             </action>
         </fragment>
+
         <fragment
             android:id="@+id/resultFragment"
             android:name="com.example.travelmate.ui.result.ResultFragment"
@@ -83,6 +84,7 @@
                 app:argType="integer" />
             </action>
         </fragment>
+
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="com.example.travelmate.ui.search.SearchFragment"
@@ -105,9 +107,35 @@
                 app:argType="string" />
         </action>
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_progress"
+        android:name="com.example.travelmate.ui.progress.ProgressFragment"
+        android:label="Progress"
+        tools:layout="@layout/fragment_progress">
+    </fragment>
+
+    <fragment
+        android:id="@+id/HistoryFragment"
+        android:name="com.example.travelmate.ui.history.HistoryFragment"
+        android:label="History"
+        tools:layout="@layout/fragment_history">
+        <action
+            android:id="@+id/action_history_to_detail"
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="historyId"
+                app:argType="string"/>
+        </action>
+    </fragment>
+
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.travelmate.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications">
+        <action
+            android:id="@+id/action_profile_to_history"
+            app:destination="@id/HistoryFragment"/>
+    </fragment>
 </navigation>
