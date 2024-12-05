@@ -88,8 +88,6 @@
                     android:layout_marginStart="24dp"
                     />
             </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
 
