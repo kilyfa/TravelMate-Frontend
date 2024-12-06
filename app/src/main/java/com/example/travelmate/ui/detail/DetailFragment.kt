@@ -157,11 +157,11 @@ class DetailFragment : Fragment() {
         })
     }
 
-//    private fun covertToCelcius(temp: Float): String {
-//        val celsius = temp - 273.15
-//        return String.format("%.2f", celsius)
-//    }
-//
+    private fun covertToCelcius(temp: Float): String {
+        val celsius = temp - 273.15
+        return String.format("%.2f", celsius)
+    }
+
 //    private fun updateWeather(
 //        weatherList: List<WeatherItem>,
 //        weaterTemp: Main

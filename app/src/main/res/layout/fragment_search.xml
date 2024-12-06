@@ -3,10 +3,24 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/searchbg"
+    android:background="@color/blackbg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
+
+    <TextView
+        android:id="@+id/searchHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="55dp"
+        android:text="Let me know what you want!"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cityInputLayout"/>
 
     <!-- Dropdown Kota dengan Autocomplete -->
     <com.google.android.material.textfield.TextInputLayout
@@ -28,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:padding="16dp"
-            android:hint="Kota"
+            android:hint="City"
             android:inputType="text"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -53,7 +67,7 @@
             android:id="@+id/priceInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Harga"
+            android:hint="Price"
             android:inputType="number"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -106,7 +120,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:hint="Kategori" />
+            android:hint="Category" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Tombol Submit -->
@@ -121,7 +135,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="84dp"
         android:layout_marginEnd="84dp"
-        android:text="Cari Destinasi"
+        android:text="Find Destination"
         android:background="@drawable/button_shape2"
         app:layout_constraintTop_toBottomOf="@id/categoryInputLayout" />
 

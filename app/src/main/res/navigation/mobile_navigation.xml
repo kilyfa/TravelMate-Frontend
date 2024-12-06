@@ -42,6 +42,9 @@
             android:label="Search"
             tools:layout="@layout/fragment_search">
             <action
+                android:id="@+id/action_search_to_home"
+                app:destination="@+id/navigation_home"/>
+            <action
                 android:id="@+id/action_search_to_result"
                 app:destination="@id/resultFragment">
                 <argument
