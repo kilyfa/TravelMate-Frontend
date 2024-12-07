@@ -2,6 +2,7 @@ package com.example.travelmate
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -9,12 +10,18 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.travelmate.databinding.ActivityMainBinding
+import com.example.travelmate.notification.NotificationPermission
 import com.example.travelmate.ui.login.LoginActivity
 import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        NotificationPermission.handlePermission(this, isGranted)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,5 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         // Setup BottomNavigationView dengan NavController
         navView.setupWithNavController(navController)
+
+        NotificationPermission.isPermitted(this, requestPermissionLauncher)
     }
 }

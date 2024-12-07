@@ -144,7 +144,7 @@ class DetailFragment : Fragment() {
                         binding.categoryTextView.text = placeDetails.category
                         binding.addressTextView.text = placeDetails.address
 
-//                        updateWeather(placeDetails.weatherResponse.weather, placeDetails.weatherResponse.main)
+                        updateWeather(placeDetails.weatherResponse.weather, placeDetails.weatherResponse.main)
                     }
                 } else {
                     Toast.makeText(requireContext(), "Failed to load details", Toast.LENGTH_SHORT).show()
@@ -162,26 +162,26 @@ class DetailFragment : Fragment() {
         return String.format("%.2f", celsius)
     }
 
-//    private fun updateWeather(
-//        weatherList: List<WeatherItem>,
-//        weaterTemp: Main
-//    ) {
-//        // Assuming you want to display the weather information in the UI
-//        if (weatherList.isNotEmpty()) {
-//            val weather = weatherList[0]
-//            val temp = covertToCelcius(weaterTemp.temp)
-//            val feelTemp = covertToCelcius(weaterTemp.feelsLike)
-//            binding.weatherDescriptionTextView.text = weather.description
-//            binding.tempTextView.text = "Tempratur: $temp°C"
-//            binding.feelTempTextView.text = "Feel like: $feelTemp°C"
-//
-//            val iconUrl = "https://openweathermap.org/img/wn/${weather.icon}@2x.png"
-//
-//            Glide.with(requireContext())
-//                .load(iconUrl)
-//                .into(binding.weatherIconImageView)
-//        }
-//    }
+    private fun updateWeather(
+        weatherList: List<WeatherItem>,
+        weaterTemp: Main
+    ) {
+        // Assuming you want to display the weather information in the UI
+        if (weatherList.isNotEmpty()) {
+            val weather = weatherList[0]
+            val temp = covertToCelcius(weaterTemp.temp)
+            val feelTemp = covertToCelcius(weaterTemp.feelsLike)
+            binding.weatherDescriptionTextView.text = weather.description
+            binding.tempTextView.text = "Tempratur: $temp°C"
+            binding.feelTempTextView.text = "Feel like: $feelTemp°C"
+
+            val iconUrl = "https://openweathermap.org/img/wn/${weather.icon}@2x.png"
+
+            Glide.with(requireContext())
+                .load(iconUrl)
+                .into(binding.weatherIconImageView)
+        }
+    }
 
 
     override fun onDestroyView() {

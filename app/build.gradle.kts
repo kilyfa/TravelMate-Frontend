@@ -75,6 +75,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.gson)
     implementation(libs.material)
+    implementation ("androidx.work:work-runtime-ktx:2.8.0")
+    implementation ("androidx.core:core-ktx:1.12.0")
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
 }
