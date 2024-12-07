@@ -8,7 +8,7 @@ data class Place(
     val address: String,
     val category: String,
     val city: String,
-    val id: String,
+    val id: Int,
     val name: String,
     val price: String,
     val rating: Double

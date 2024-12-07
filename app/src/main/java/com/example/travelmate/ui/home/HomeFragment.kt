@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.travelmate.R
 import com.example.travelmate.api.ApiClient
 import com.example.travelmate.api.HomeApiService
 import com.example.travelmate.api.PlaceResponse
 import com.example.travelmate.databinding.FragmentHomeBinding
+import com.example.travelmate.ui.detail.DetailFragment
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +34,11 @@ class HomeFragment : Fragment() {
         // Inisialisasi RecyclerView
         setupRecyclerView()
 
+        binding.button1.setOnClickListener {
+            // Navigasi ke SearchFragment
+            findNavController().navigate(R.id.action_home_to_search)
+        }
+
         // Fetch data dari API
         fetchHomeData()
 
@@ -40,8 +48,11 @@ class HomeFragment : Fragment() {
     private fun setupRecyclerView() {
         // Mengatur layout manager dan adapter awal
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = PlaceAdapter(emptyList())
+        binding.recyclerView.adapter = PlaceAdapter(emptyList()) { placeId ->
+            onPlaceClicked(placeId)
+        }
     }
+
 
     private fun fetchHomeData() {
         val apiService = ApiClient.retrofit.create(HomeApiService::class.java)
@@ -52,11 +63,13 @@ class HomeFragment : Fragment() {
                     val placesResponse = response.body()
                     if (placesResponse != null && placesResponse.data.isNotEmpty()) {
                         // Ambil 10 tempat secara acak
-                        val randomPlaces = placesResponse.data.shuffled().take(10)
+                        val recommendPlace = placesResponse.data.take(10)
 
                         // Update RecyclerView dengan data baru
-                        binding.recyclerView.adapter = PlaceAdapter(randomPlaces)
-                    } else {
+                        binding.recyclerView.adapter = PlaceAdapter(recommendPlace) { placeId ->
+                            onPlaceClicked(placeId)
+                        }
+                        } else {
                         Toast.makeText(
                             requireContext(),
                             "No places available",
@@ -82,6 +95,11 @@ class HomeFragment : Fragment() {
             }
         })
     }
+    private fun onPlaceClicked(placeId: Int) {
+        val action = HomeFragmentDirections.actionHomeToDetail(placeId)
+        findNavController().navigate(action)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -6,24 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.travelmate.R
+import com.example.travelmate.api.Place
 
-data class PlaceResponse(
-    val data: List<Place>
-)
-
-data class Place(
-    val address: String,
-    val category: String,
-    val city: String,
-    val id: Int,
-    val name: String,
-    val price: String,
-    val rating: Int
-)
-
-
-class PlaceAdapter(private val places: List<com.example.travelmate.api.Place>) :
-    RecyclerView.Adapter<PlaceAdapter.PlaceViewHolder>() {
+class PlaceAdapter(
+    private val places: List<Place>,
+    private val onItemClick: (Int) -> Unit
+) : RecyclerView.Adapter<PlaceAdapter.PlaceViewHolder>() {
 
     class PlaceViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewName: TextView = view.findViewById(R.id.textViewName)
@@ -45,7 +33,11 @@ class PlaceAdapter(private val places: List<com.example.travelmate.api.Place>) :
         holder.textViewAddress.text = place.address
         holder.textViewCategory.text = place.category
         holder.textViewCity.text = place.city
-        holder.textViewRating.text = "Rating: ${place.rating}"
+        holder.textViewRating.text = place.rating.toString()
+
+        holder.itemView.setOnClickListener {
+            onItemClick(place.id)
+        }
     }
 
     override fun getItemCount() = places.size
