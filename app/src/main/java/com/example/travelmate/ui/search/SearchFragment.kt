@@ -15,7 +15,21 @@ class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
 
-    private val categories = listOf("Edukasi", "Wisata Alam", "Kuliner", "Sejarah", "Edukasi dan Hiburan", "Taman Kota", "Pantai")
+    private val cities = listOf(
+        "Jakarta", "Yogyakarta", "Bandung", "Semarang", "Surabaya",
+        "Banten", "Serang", "Cilegon", "Tangerang", "Bekasi", "Magelang"
+    )
+    private val categories = listOf(
+        "Pilih Kategori", "Sejarah dan Budaya", "Taman Hiburan", "Taman Air",
+        "Kebun Binatang", "Wisata Alam", "Wisata Bahari",
+        "Pasar dan Belanja", "Museum", "Edukasi dan Hiburan", "Religi",
+        "Kuliner", "Taman Kota", "Pusat Perbelanjaan",
+        "Hiburan Interaktif", "Pantai", "Edukasi", "Wisata Kuliner",
+        "Seni dan Budaya", "Olahraga dan Rekreasi", "Penginapan dan Alam",
+        "Edukasi dan Alam", "Wisata Kuliner dan Budaya",
+        "Pantai dan Hiburan", "Pantai dan Kuliner", "Ikon Kota", "Budaya",
+        "Taman", "Wisata Belanja"
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,9 +37,11 @@ class SearchFragment : Fragment() {
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
+        val cityAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, cities)
+        binding.cityInput.setAdapter(cityAdapter)
+
         val categoryAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, categories)
         binding.categoryInput.setAdapter(categoryAdapter)
-
 
         binding.submitButton.setOnClickListener {
             val city = binding.cityInput.text.toString().trim()
@@ -46,4 +62,5 @@ class SearchFragment : Fragment() {
 
         return binding.root
     }
+
 }

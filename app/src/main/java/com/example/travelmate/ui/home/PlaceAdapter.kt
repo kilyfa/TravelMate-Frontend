@@ -33,7 +33,7 @@ class PlaceAdapter(
         holder.textViewAddress.text = place.address
         holder.textViewCategory.text = place.category
         holder.textViewCity.text = place.city
-        holder.textViewRating.text = "Rating: ${place.rating}"
+        holder.textViewRating.text = place.rating.toString()
 
         holder.itemView.setOnClickListener {
             onItemClick(place.id)

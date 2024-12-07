@@ -8,25 +8,41 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.SearchFragment">
 
+    <TextView
+        android:id="@+id/searchHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="55dp"
+        android:text="Let me know what you want!"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/cityInputLayout"/>
+
     <!-- Dropdown Kota dengan Autocomplete -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/cityInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/SearchTextInputOuterFieldStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="88dp"
-
+        android:textColorHint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/cityInput"
+            style="@style/SearchTextInputInnerFieldStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Kota"
+            android:layout_height="64dp"
+            android:padding="16dp"
+            android:hint="City"
             android:inputType="text"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -37,11 +53,12 @@
     <!-- Input Harga -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/priceInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/SearchTextInputOuterFieldStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
+        android:textColorHint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cityInputLayout">
@@ -50,7 +67,7 @@
             android:id="@+id/priceInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Harga"
+            android:hint="Price"
             android:inputType="number"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
@@ -60,11 +77,12 @@
     <!-- Input Rating -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/ratingInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/SearchTextInputOuterFieldStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
+        android:textColorHint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/priceInputLayout">
@@ -83,24 +101,26 @@
     <!-- Dropdown untuk Kategori -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/categoryInputLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/CategoryInputOuterFieldStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
+        android:textColorHint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ratingInputLayout">
 
+
         <AutoCompleteTextView
             android:id="@+id/categoryInput"
+            style="@style/CategoryInputInnerFieldStyle"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:padding="12dp"
-            android:hint="Kategori"
-            android:textColor="#FFFFFF"
+            android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:hint="Category" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Tombol Submit -->
@@ -110,12 +130,13 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="16dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="84dp"
         android:layout_marginEnd="84dp"
-        android:text="Cari Destinasi"
-        android:background="@drawable/button_shape"
+        android:text="Find Destination"
+        android:background="@drawable/button_shape2"
         app:layout_constraintTop_toBottomOf="@id/categoryInputLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
