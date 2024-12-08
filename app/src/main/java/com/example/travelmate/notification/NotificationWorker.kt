@@ -14,6 +14,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.travelmate.MainActivity
 import com.example.travelmate.R
@@ -26,35 +27,42 @@ class NotificationWorker(
     private val apiService: ApiService = ApiClient.retrofit.create(ApiService::class.java)
 
     override fun doWork(): Result {
+        Log.d("NotificationWorker", "Worker mulai dipanggil")
         val sharedPreferences = applicationContext.getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
         val token = sharedPreferences.getString("auth_token", null)?.let { "Bearer $it" }
 
         return try {
+            Log.d("NotificationWorker", "Mengambil data dari API")
             val response: Response<ProgressResponse> = apiService.getProgress(token.toString()).execute()
 
             if (response.isSuccessful) {
                 val apiResponse = response.body()
                 if (apiResponse != null && apiResponse.progress.isNotEmpty()) {
+                    Log.d("NotificationWorker", "Data berhasil diambil: ${apiResponse.progress.size} item")
                     checkAndNotify(applicationContext, apiResponse.progress)
                 }
                 Result.success()
             } else {
+                Log.e("NotificationWorker", "Gagal mengambil data, response code: ${response.code()}")
                 Result.retry()
             }
         } catch (e: Exception) {
+            Log.e("NotificationWorker", "Error di Worker: ${e.message}", e)
             e.printStackTrace()
             Result.retry()
         }
     }
 
     private fun checkAndNotify(context: Context, progressList: List<ProgressItem>) {
+        Log.d("NotificationWorker", "Memeriksa notifikasi untuk ${progressList.size} item")
         for (item in progressList) {
             if (isToday(item.date)) {
                 if (isDuplicate(context, item.id)){
+                    Log.d("NotificationWorker", "Item yang cocok ditemukan: ${item.name}")
                     sendNotification(
                         context,
                         "Hari yang Kamu Tunggu Telah Tiba, Jangan Lewatkan Keseruannya!!",
-                        "hari ini kamu ada rencana berkunjung ke ${item.name} yang terletak di ${item.city}, ayo bersiap!!"
+                        "hari ini kamu ada rencana berkunjung ke ${item.name}, ayo bersiap!!"
                     )
                 }
             }
