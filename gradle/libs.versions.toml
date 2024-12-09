@@ -1,9 +1,12 @@
 [versions]
+compiler = "4.15.1"
 converterGson = "2.11.0"
 agp = "8.6.1"
+coreKtxVersion = "1.12.0"
 firebaseBom = "33.6.0"
 firebaseMlModeldownloader = "25.0.1"
 glide = "4.16.0"
+glideVersion = "4.15.1"
 googleServices = "4.4.2"
 gson = "2.11.0"
 kotlin = "1.9.0"
@@ -26,15 +29,28 @@ firebaseAuthKtx = "23.1.0"
 firebaseAuth = "23.1.0"
 retrofit = "2.11.0"
 identityJvm = "202411.1"
+roomCommon = "2.6.1"
+roomCompiler = "2.6.1"
+roomKtx = "2.6.1"
+legacySupportV4 = "1.0.0"
+fragmentKtx = "1.8.5"
+roomRuntime = "2.6.1"
+workRuntimeKtx = "2.8.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-ktx-v1120 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version = "2.8.4" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
+compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-ml-modeldownloader = { module = "com.google.firebase:firebase-ml-modeldownloader", version.ref = "firebaseMlModeldownloader" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+glide-v4151 = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -54,6 +70,10 @@ firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx",
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 identity-jvm = { group = "com.android.identity", name = "identity-jvm", version.ref = "identityJvm" }
+androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacySupportV4" }
+androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragmentKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

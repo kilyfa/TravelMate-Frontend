@@ -40,7 +40,7 @@ object NotificationPermission {
     }
 
     private fun scheduleNotify(context: Context) {
-        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS)
+        val workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(5, TimeUnit.HOURS)
             .setConstraints(
                 Constraints.Builder()
                     .setRequiredNetworkType(NetworkType.CONNECTED)

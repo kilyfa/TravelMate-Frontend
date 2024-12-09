@@ -17,6 +17,11 @@
         android:title="Progress"/>
 
     <item
+        android:id="@+id/navigation_favorite"
+        android:icon="@drawable/baseline_bookmark_24"
+        android:title="Favorite" />
+
+    <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="@string/title_notifications" />

@@ -41,7 +41,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home,
                 R.id.navigation_dashboard,
                 R.id.navigation_progress,
-                R.id.navigation_notifications
+                R.id.navigation_notifications,
+                R.id.navigation_favorite
             )
         )
 //        setupActionBarWithNavController(navController, appBarConfiguration) // Aktifkan kembali jika ingin toolbar sync

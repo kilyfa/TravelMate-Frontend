@@ -4,6 +4,7 @@ plugins {
     id("com.google.gms.google-services")
     id ("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -70,13 +71,19 @@ dependencies {
     implementation(libs.glide)
     implementation(libs.logging.interceptor)
     implementation(libs.identity.jvm)
+    implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.legacy.support.v4)
+    implementation(libs.androidx.fragment.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.gson)
     implementation(libs.material)
-    implementation ("androidx.work:work-runtime-ktx:2.8.0")
-    implementation ("androidx.core:core-ktx:1.12.0")
-    implementation ("com.github.bumptech.glide:glide:4.15.1")
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")
+    implementation (libs.androidx.room.runtime)
+    kapt (libs.androidx.room.compiler)
+    implementation (libs.androidx.work.runtime.ktx)
+    implementation (libs.androidx.core.ktx.v1120)
+    implementation (libs.glide.v4151)
+    annotationProcessor (libs.compiler)
 }

@@ -10,18 +10,25 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.travelmate.MainActivity
+import com.example.travelmate.R
 import com.example.travelmate.api.ApiClient
 import com.example.travelmate.api.ErrorResponse
+import com.example.travelmate.data.local.database.FavoriteDatabase
+import com.example.travelmate.data.local.entity.FavoriteEntity
 import com.example.travelmate.data.model.DateRequest
+import com.example.travelmate.data.repository.FavoriteRepository
 import com.example.travelmate.data.response.DateResponse
 import com.example.travelmate.data.response.DetailResponse
 import com.example.travelmate.data.response.Main
 import com.example.travelmate.data.response.WeatherItem
 import com.example.travelmate.data.retrofit.ApiService
 import com.example.travelmate.databinding.FragmentDetailBinding
+import com.example.travelmate.ui.favorite.FavoriteViewModel
+import com.example.travelmate.ui.favorite.FavoriteViewModelFactory
 import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
@@ -34,6 +41,9 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var apiService: ApiService
+    private lateinit var favoriteViewModel: FavoriteViewModel
+
+    private var isBookmarked = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,6 +53,11 @@ class DetailFragment : Fragment() {
 
         // Initialize Retrofit API service
         apiService = ApiClient.retrofit.create(ApiService::class.java)
+
+        val application = requireNotNull(this.activity).application
+        val repository = FavoriteRepository(FavoriteDatabase.getDatabase(application).favoriteDao())
+        val viewModelFactory = FavoriteViewModelFactory(repository)
+        favoriteViewModel = ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
 
         val args = DetailFragmentArgs.fromBundle(requireArguments())
         val placeId = args.placeId
@@ -67,10 +82,35 @@ class DetailFragment : Fragment() {
             }
         }
 
-        binding.date.setOnClickListener() {
-            showDatePickerDialog()
+        // Set initial state of bookmark
+        favoriteViewModel.isFavorite(placeId).observe(viewLifecycleOwner) { isFavorite ->
+            isBookmarked = isFavorite
+            updateBookmarkIcon()
         }
 
+        // Handle bookmark click
+        binding.bookmarkIcon.setOnClickListener {
+            val place = FavoriteEntity(
+                id = placeId,
+                name = binding.nameTextView.text.toString(),
+                city = binding.cityTextView.text.toString(),
+                address = binding.addressTextView.text.toString(),
+                category = binding.categoryTextView.text.toString(),
+                price = binding.priceTextView.text.toString(),
+                rating = binding.ratingTextView.text.toString().toFloatOrNull() ?: 0f
+            )
+
+            if (isBookmarked) {
+                favoriteViewModel.deleteFavorite(place)
+                Toast.makeText(requireContext(), "Removed from Favorites", Toast.LENGTH_SHORT).show()
+            } else {
+                favoriteViewModel.insertFavorite(place)
+                Toast.makeText(requireContext(), "Added to Favorites", Toast.LENGTH_SHORT).show()
+            }
+
+            isBookmarked = !isBookmarked // Toggle state bookmark
+            updateBookmarkIcon()
+        }
 
         return binding.root
     }
@@ -183,6 +223,14 @@ class DetailFragment : Fragment() {
         }
     }
 
+    private fun updateBookmarkIcon() {
+        val iconRes = if (isBookmarked) {
+            R.drawable.baseline_bookmark_24 // Ikon filled
+        } else {
+            R.drawable.baseline_bookmark_border_24 // Ikon outline
+        }
+        binding.bookmarkIcon.setImageResource(iconRes)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

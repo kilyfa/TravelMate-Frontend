@@ -36,6 +36,20 @@
             app:argType="integer" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_favorite"
+        android:name="com.example.travelmate.ui.favorite.FavoriteFragment"
+        android:label="Favorite"
+        tools:layout="@layout/fragment_favorite">
+        <action
+            android:id="@+id/action_favorite_to_detail"
+            app:destination="@id/detailFragment">
+            <argument
+                android:name="placeId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+
         <fragment
             android:id="@+id/searchFragment"
             android:name="com.example.travelmate.ui.search.SearchFragment"
