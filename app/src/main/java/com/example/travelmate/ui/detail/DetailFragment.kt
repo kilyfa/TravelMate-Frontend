@@ -112,6 +112,10 @@ class DetailFragment : Fragment() {
             updateBookmarkIcon()
         }
 
+        binding.date.setOnClickListener {
+            showDatePickerDialog()
+        }
+
         return binding.root
     }
 

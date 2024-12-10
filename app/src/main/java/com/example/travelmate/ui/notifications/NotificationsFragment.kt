@@ -46,8 +46,13 @@ class NotificationsFragment : Fragment() {
             logoutUser()
         }
 
-        binding.button3.setOnClickListener(){
+        binding.button3.setOnClickListener {
             val action = NotificationsFragmentDirections.actionProfileToHistory()
+            findNavController().navigate(action)
+        }
+
+        binding.button4.setOnClickListener {
+            val action = NotificationsFragmentDirections.actionProfileToFavorite()
             findNavController().navigate(action)
         }
 

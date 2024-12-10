@@ -7,10 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.example.travelmate.data.model.RecommendationRequest
 import com.example.travelmate.data.repository.RecommendationRepository
 import com.example.travelmate.data.response.DataItem
-import com.example.travelmate.data.response.RecommendationResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ResultViewModel(private val repository: RecommendationRepository) : ViewModel() {
 

@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
                         binding.recyclerView.adapter = PlaceAdapter(recommendPlace) { placeId ->
                             onPlaceClicked(placeId)
                         }
-                        } else {
+                    } else {
                         Toast.makeText(
                             requireContext(),
                             "No places available",

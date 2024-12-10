@@ -144,6 +144,10 @@
                 android:name="historyId"
                 app:argType="string"/>
         </action>
+        <action
+            android:id="@+id/action_history_to_profile"
+            app:destination="@+id/navigation_notifications">
+        </action>
     </fragment>
 
     <fragment
@@ -154,5 +158,8 @@
         <action
             android:id="@+id/action_profile_to_history"
             app:destination="@id/HistoryFragment"/>
+        <action
+            android:id="@+id/action_profile_to_favorite"
+            app:destination="@+id/navigation_favorite"/>
     </fragment>
 </navigation>
